@@ -7,37 +7,34 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  TextEditingController weightController = TextEditingController();
+  TextEditingController HeightController = TextEditingController();
+  String bmiResult = '';
+  String bmi = '';
 
-  TextEditingController weightController=TextEditingController();
-  TextEditingController HeightController=TextEditingController();
-   String bmiResult='';
-  String bmi='';
-
-  void calculateBMI(String weight,String height){
- String WeightDouble=double.parse(weight);
-  String  HeightDouble=double.parse(height);
-  
-    bmi=(weightDouble / (heightDouble * heightDouble)).toStringAsFixed(factionDigits:2);
-    var bmiCategory=getCategory(bmi);
-    bmiResult="You are in $bmiCategory category.";
-  
+  void calculatenewBMI(String weight, String height) {
+    double weightDouble = double.parse(weight);
+    double heightDouble = double.parse(height);
+    setState(() {
+      bmi = (weightDouble / (heightDouble * heightDouble)).toString();
+    });
   }
 
-  String getCategory(String bmi){
-    var bmiDouble=double.parse(bmi);
-    var category='';
-    if(bmiDouble <18.5){
-      category='UnderWeight';
-    }else if(18.5 <= bmiDouble && bmiDouble <24.9){
-      category ='Healthy';
-    }else if(bmiDouble >25 && bmiDouble <=29){
-      category='OverWeight';
-
-    }else{
-      category='Obese';
+  String getCategory(String bmi) {
+    var bmiDouble = double.parse(bmi);
+    var category = '';
+    if (bmiDouble < 18.5) {
+      category = 'UnderWeight';
+    } else if (18.5 <= bmiDouble && bmiDouble < 24.9) {
+      category = 'Healthy';
+    } else if (bmiDouble > 25 && bmiDouble <= 29) {
+      category = 'OverWeight';
+    } else {
+      category = 'Obese';
     }
     return category;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +76,9 @@ class _HomepageState extends State<Homepage> {
           ),
           SizedBox(height: 40),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              calculatenewBMI(weightController.text, HeightController.text);
+            },
             child: Container(
               height: 50,
               width: 200,
@@ -105,7 +104,7 @@ class _HomepageState extends State<Homepage> {
             ),
             child: Center(
               child: Text(
-                "BMI: 29.30",
+                "BMI: $bmi",
                 style: TextStyle(
                     color: Colors.red,
                     fontSize: 20,
@@ -114,7 +113,7 @@ class _HomepageState extends State<Homepage> {
             ),
           ),
           SizedBox(height: 30),
-          Text(),
+          Text(bmiResult),
         ],
       ),
     );
