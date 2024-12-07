@@ -17,6 +17,8 @@ class _HomepageState extends State<Homepage> {
     double heightDouble = double.parse(height);
     setState(() {
       bmi = (weightDouble / (heightDouble * heightDouble)).toString();
+      String bmiCategory = getCategory(bmi);
+      bmiResult = "You are in $bmiCategory category.";
     });
   }
 
